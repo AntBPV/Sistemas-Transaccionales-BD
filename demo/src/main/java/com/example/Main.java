@@ -1,28 +1,20 @@
 package com.example;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+
+import com.example.models.Actor;
+import com.example.repository.ActorRepository;
+import com.example.repository.Repository;
+import com.example.utils.DatabaseConnection;
 
 public class Main {
     public static void main(String[] args) {
-        Connection myConnection = null;
-        Statement myStatement = null;
-        ResultSet myResultSet = null;
-
-        
-        try {
-            myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306", "root", "root");
-            myStatement = myConnection.createStatement();
-            myStatement.executeUpdate("UPDATE sakila.actor set first_name = 'antonio' where actor_id=20");
-            myResultSet=myStatement.executeQuery("Select * from sakila.actor");
-            while (myResultSet.next()) {
-                System.out.println(myResultSet.getString("first_name") + " " + myResultSet.getString("last_name"));
-            }
-            System.out.println("Chevere");
+        try (Connection myConn = DatabaseConnection.getInstance()) {
+            Repository<Actor> repository = new ActorRepository();
+            Actor actor1 = repository.getById(1);
+            System.out.println(actor1);
         } catch (Exception e) {
-            System.out.println("Cagaste");
+            System.out.println(e);
         }
     }
 }

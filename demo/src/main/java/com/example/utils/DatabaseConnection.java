@@ -2,6 +2,7 @@ package com.example.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class DatabaseConnection {
     private static String url = "jdbc:mysql://localhost:3306";
@@ -10,7 +11,7 @@ public class DatabaseConnection {
     
     private static Connection myConnection;
 
-    public static Connection getInstance()throws Exception{
+    public static Connection getInstance()throws SQLException{
         if(myConnection == null){
             myConnection = DriverManager.getConnection(url, user, password);
         }
